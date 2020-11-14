@@ -4,3 +4,11 @@
   border-color: darken($color: $primary, $amount: 10);
   border-width: medium;
 }
+
+.radius50 {
+  border-radius: 50%;
+}
+
+.radius20 {
+  border-radius: 20px;
+}

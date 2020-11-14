@@ -2,11 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img
-          alt="logo"
-          src="../assets/img/cw-logo.png"
-          height="45"
-        />
+        <h3><i class="fas fa-bug">   buglogger</i></h3>
       </div>
     </router-link>
     <button
@@ -24,12 +20,12 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link :to="{ name: 'Home' }" class="nav-link">
-            Home
+            <i class="fas fa-home text-light"></i>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link :to="{ name: 'About' }" class="nav-link">
-            About
+            <i class="fas fa-info text-light"></i>
           </router-link>
         </li>
       </ul>
@@ -51,7 +47,7 @@
               :src="user.picture"
               alt="user photo"
               height="40"
-              class="rounded"
+              class="radius50"
             />
             <span class="mx-3">{{ user.name }}</span>
           </div>
@@ -63,6 +59,11 @@
             <router-link :to="{ name: 'Profile' }">
               <div class="list-group-item list-group-item-action hoverable">
                 Profile
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Home' }">
+              <div class="list-group-item list-group-item-action hoverable">
+                Home
               </div>
             </router-link>
             <div
