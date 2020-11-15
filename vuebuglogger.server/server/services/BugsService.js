@@ -1,45 +1,20 @@
 import { dbContext } from '../db/DbContext'
-import { logger } from '../utils/Logger'
 
 class BugsService {
   async getAllBugs() {
-    try {
-      return await dbContext.Bugs.find().populate('creator')
-    } catch (error) {
-      logger.error(error)
-    }
+    return await dbContext.Bugs.find().populate('creator')
   }
 
   async createBug(body) {
-    try {
-      return await dbContext.Bugs.create(body)
-    } catch (error) {
-      logger.error(error)
-    }
+    return await dbContext.Bugs.create(body)
   }
 
   async showActiveBug(id) {
-    try {
-      await dbContext.Bugs.findById(id)
-    } catch (error) {
-      logger.error(error)
-    }
+    await dbContext.Bugs.findById(id)
   }
 
-  // async editBug() {
-  //   try {
-
-  //   } catch (error) {
-  //     logger.error(error)
-  //   }
-  // }
-
-  // async closeBug() {
-  //   try {
-
-  //   } catch (error) {
-  //     logger.error(error)
-  //   }
-  // }
+  async editBug(id, body) {
+    return await dbContext.Bugs.findByIdAndUpdate(id, body)
+  }
 }
 export const bugsService = new BugsService()

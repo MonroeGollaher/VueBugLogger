@@ -20,6 +20,10 @@ class NotesService {
   async deleteNote(noteId) {
     return await dbContext.Notes.findByIdAndDelete(noteId)
   }
+
+  async getBugNotes(bugId) {
+    return await dbContext.Notes.find({ bugId: bugId })
+  }
 }
 
 export const notesService = new NotesService()
