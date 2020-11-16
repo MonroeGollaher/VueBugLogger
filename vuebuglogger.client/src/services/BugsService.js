@@ -35,7 +35,8 @@ class BugsService {
   async editBug(id, newBug) {
     try {
       newBug.closed = !newBug.closed
-      await api.put('api/bugs/' + id, newBug)
+      // await api.put('api/bugs/' + id, newBug)
+      await api.delete('api/bugs/' + id)
       this.getBugs()
       this.showActiveBug(id)
     } catch (err) {

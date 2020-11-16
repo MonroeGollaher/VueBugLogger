@@ -4,7 +4,7 @@
       <div class="col-12 d-flex justify-content-center">
         <div class="d-flex shadow p-2">
           <h1 class="my-auto">
-            Active Bug Page
+            Active Bug Details
           </h1>
         </div>
       </div>

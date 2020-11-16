@@ -18,10 +18,10 @@
           <i class="fas fa-sync"></i>
         </button>
         <button class="btn btn-success rounded mx-1 shadow" @click="order('active')">
-          Active
+          Open Bugs
         </button>
         <button class="btn btn-danger rounded shadow" @click="order('closed')">
-          Closed
+          Closed Bugs
         </button>
       </div>
     </div>

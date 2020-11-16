@@ -11,7 +11,7 @@
           </p>
         </div>
         <div class="col-3 d-flex">
-          <img :src="bugProps.creatorImg" height="30" class="rounded-circle my-auto" alt="">
+          <!-- <img :src="bugProps.creatorImg" height="30" class="rounded-circle my-auto" alt=""> -->
 
           <p class="text-left my-auto pl-3">
             {{ bugProps.creatorEmail.split('@').splice(0,1).join('') }}

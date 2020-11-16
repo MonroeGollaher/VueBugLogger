@@ -2,7 +2,7 @@ import { dbContext } from '../db/DbContext'
 
 class BugsService {
   async deleteBug(bugId) {
-    return await dbContext.Bugs.findByIdAndDelete(bugId)
+    return await dbContext.Bugs.findByIdAndUpdate(bugId, { closed: true })
   }
 
   async getAllBugs(query = {}) {
