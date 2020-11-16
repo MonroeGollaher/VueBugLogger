@@ -4,7 +4,8 @@ import { reactive } from 'vue'
 export const AppState = reactive({
   user: {},
   profile: {},
-  notes: [],
   bugs: [],
-  activeBug: {}
+  notes: [],
+  activeBug: {},
+  sort: { order: 'all' }
 })

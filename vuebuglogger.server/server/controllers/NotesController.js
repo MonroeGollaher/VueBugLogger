@@ -1,8 +1,8 @@
-import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { notesService } from '../services/NotesService'
+import BaseController from '../utils/BaseController'
 
-export class NoteController extends BaseController {
+export class NotesController extends BaseController {
   constructor() {
     super('api/notes')
     this.router
@@ -33,6 +33,8 @@ export class NoteController extends BaseController {
   async createNote(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
+      req.body.creatorEmail = req.userInfo.email
+      req.body.creatorImg = req.userInfo.picture
       res.send(await notesService.createNote(req.body))
     } catch (error) {
       next(error)

@@ -1,101 +1,89 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column">
-    <div class="jumbotron jumbotron-fluid text-center">
-      <div class="container">
+  <div class="home container-fluid">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
         <h1 class="display-4">
-          bugLogger
+          buglogger <i class="fas fa-bug"></i>
         </h1>
-        <p class="lead">
-        </p>
       </div>
     </div>
-    <div class="row d-flex text-start justify-content-center mb-4">
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Log Bug <i class="fas fa-bug ml-2"></i>
-      </button>
-
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Report a bug
-              </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form @submit.prevent="createBug()">
-                <div class="col-8 offset-2 my-2">
-                  <input type="text" placeholder="Reported By..." class="form-control">
-                </div>
-                <div class="col-8 offset-2 my-2">
-                  <input type="text" placeholder="Title" class="form-control" v-model="state.newBug.title">
-                </div>
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Example textarea</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="state.newBug.description"></textarea>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Report
-                  </button>
-                </div>
-              </form>
-            </div>
+    <div class="row mt-5" v-if="profile.id">
+      <div class="col-4 offset-2 d-flex">
+        <button class="btn btn-primary rounded shadow" data-toggle="collapse" data-target="#contentId">
+          Log a bug
+        </button>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <button class="btn btn-dark rounded shadow" @click="order('all')">
+          <i class="fas fa-sync"></i>
+        </button>
+        <button class="btn btn-success rounded mx-1 shadow" @click="order('active')">
+          Active
+        </button>
+        <button class="btn btn-danger rounded shadow" @click="order('closed')">
+          Closed
+        </button>
+      </div>
+    </div>
+    <div class="row my-3 collapse" id="contentId">
+      <div class="col-8 offset-2 mt-2">
+        <CreateBugComponent />
+      </div>
+    </div>
+    <div class="row mt-3" v-if="profile.id">
+      <div class="col-8 offset-2">
+        <div class="row rounded shadow py-3">
+          <div class="col-1 d-flex">
+            <h6 class="my-auto">
+              Status
+            </h6>
+          </div>
+          <div class="col-4 d-flex">
+            <h6 class="my-auto">
+              Title
+            </h6>
+          </div>
+          <div class="col-3 d-flex">
+            <h6 class="my-auto">
+              Reported By
+            </h6>
+          </div>
+          <div class="col-2 d-flex justify-content-end">
+            <h6 class="my-auto">
+              Created
+            </h6>
+          </div>
+          <div class="col-2 d-flex justify-content-end">
+            <h6 class="my-auto">
+              Modified
+            </h6>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row d-flex text-start justify-content-center">
-      <div class="col-2 card shadow">
-        <h5>Title:</h5>
-      </div>
-      <div class="col-2 card shadow">
-        <h5>Reported By:</h5>
-      </div>
-      <div class="col-2 card shadow">
-        <h5>Status:</h5>
-      </div>
-      <div class="col-2 card shadow">
-        <h5>Date:</h5>
+        <BugComponent v-for="bug in bugs" :key="bug.id" :bug-props="bug" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, computed, onMounted } from 'vue'
-import { bugsService } from '../services/BugsService'
-import { profileService } from '../services/ProfileService'
+import CreateBugComponent from '../components/createBugComponent'
+import BugComponent from '../components/bugComponent'
+import { computed } from 'vue'
 import { AppState } from '../AppState'
 export default {
   name: 'Home',
   setup() {
-    const state = reactive({
-      newBug: {
-
-      }
-    })
-    onMounted(async() => {
-      await profileService.getProfile()
-      await bugsService.getAllBugs()
-    })
     return {
-      state,
-      profile: computed(() => AppState.profile),
       bugs: computed(() => AppState.bugs),
-      createBug() {
-        bugsService.createBug(state.newBug)
+      profile: computed(() => AppState.profile),
+      sort: computed(() => AppState.sort),
+      order(status) {
+        AppState.sort.order = status
       }
+
     }
-  }
+  },
+  components: { CreateBugComponent, BugComponent }
 }
 </script>
 

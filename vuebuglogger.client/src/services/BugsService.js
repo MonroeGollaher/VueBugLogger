@@ -1,12 +1,22 @@
-import { api } from '../services/AxiosService'
-import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
+import { api } from './AxiosService'
 
 class BugsService {
-  async getAllBugs() {
+  async getBugs() {
     try {
-      const res = await api.get('/bugs')
+      const res = await api.get('api/bugs')
       AppState.bugs = res.data
+    } catch (err) {
+      logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
+    }
+  }
+
+  async showActiveBug(id) {
+    try {
+      const res = await api.get('api/bugs/' + id)
+      AppState.activeBug = res.data
+      logger.log(AppState.activeBug)
     } catch (error) {
       logger.error(error)
     }
@@ -14,19 +24,32 @@ class BugsService {
 
   async createBug(newBug) {
     try {
-      await api.post('/bugs/', newBug)
-      this.getAllBugs()
-    } catch (error) {
-      logger.error(error)
+      await api.post('api/bugs/', newBug)
+
+      this.getBugs()
+    } catch (err) {
+      logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
   }
 
-  async showActiveBug(bugId) {
+  async editBug(id, newBug) {
     try {
-      const res = await api.get('/bugs/' + bugId)
-      AppState.activeBug = res.data
-    } catch (error) {
-      logger.error(error)
+      newBug.closed = !newBug.closed
+      await api.put('api/bugs/' + id, newBug)
+      this.getBugs()
+      this.showActiveBug(id)
+    } catch (err) {
+      logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
+    }
+  }
+
+  async editBugContents(id, newBug) {
+    try {
+      await api.put('api/bugs/' + id, newBug)
+      this.getBugs()
+      this.showActiveBug(id)
+    } catch (err) {
+      logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
   }
 }
